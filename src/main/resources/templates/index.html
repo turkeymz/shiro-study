@@ -6,5 +6,33 @@
 </head>
 <body>
 <h3>这是index页面</h3>
+
+<h3>
+    <span th:text="'登录账号:'+${userInfo.username}"></span>
+    <span th:text="'名称:'+${userInfo.name}"></span>
+</h3>
+
+<!-- 使用shiro的权限信息动态显示 -->
+<h5>通过shiro获取</h5>
+<p shiro:hasPermission="userInfo:query">
+    <a href="/userInfo/userList">查询用户</a>
+</p>
+<p shiro:hasPermission="userInfo:add">
+    <a href="/userInfo/userAdd">新增用户</a>
+</p>
+<p shiro:hasPermission="userInfo:del">
+    <a href="/userInfo/userDel">删除用户</a>
+</p>
+
+<!-- 通过数据库获取权限信息动态显示 -->
+<hr/>
+<h5>通过数据库获取</h5>
+<div th:each="roles:${userInfo.roles}">
+    <span th:text="${roles.description}"></span>
+    <p th:each="permissions:${roles.permissions}">
+        <a th:href="${permissions.url}" th:text="${permissions.name}"></a>
+    </p>
+</div>
+
 </body>
 </html>
